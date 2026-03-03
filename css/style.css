@@ -1,4 +1,4 @@
- /* =======================
+/* =======================
    BODY AND BACKGROUND
 ======================= */
 body {
@@ -6,15 +6,15 @@ body {
     font-family: 'Georgia', serif;
     color: #5b6770;
 }
-    /* Background image */
-    /*  
-    background-image: url('../images/hero.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
+/* Background image */
+/*  
+background-image: url('../images/hero.png');
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+background-repeat: no-repeat;
 
-    padding: 0;
+padding: 0;
 }*/
 
 /* =======================
@@ -28,16 +28,16 @@ body {
 
 /* Container styling - full width up to max-width */
 .container {
-    background-color: rgba(255, 255, 255, 0.95); /* translucent white */
-    width: 90%;          /* take most of screen width */
-    max-width: 900px;    /* allow a bit more width */
-    margin: 50px auto;   /* top and bottom spacing */
+    background-color: rgba(255, 255, 255, 0.95);
+    width: 90%;
+    max-width: 900px;
+    margin: 50px auto;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow: hidden;
-    padding: 40px 30px;  /* increase padding for breathing space */
-    flex: 1;             /* allows container to grow between navbar and footer */
+    padding: 40px 30px;
+    flex: 1;
 }
 
 /* =======================
@@ -74,7 +74,7 @@ body {
 }
 
 .nav-links li a {
-    color: #4DA6FF; /* light blue */
+    color: #4DA6FF;
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 4px;
@@ -82,7 +82,7 @@ body {
 }
 
 .nav-links li a[href*="wa.me"] {
-    color: #25D366; /* WhatsApp green */
+    color: #25D366;
 }
 
 .nav-links li a:hover {
@@ -204,7 +204,7 @@ hr {
     display: inline-block;
     padding: 10px 20px;
     margin-top: 15px;
-    background-color: #4DA6FF; /* light blue */
+    background-color: #4DA6FF;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -243,13 +243,13 @@ hr {
 }
 
 .footer a {
-    color: #4DA6FF; /* light blue default */
+    color: #4DA6FF;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer a[href*="wa.me"] {
-    color: #25D366; /* WhatsApp green */
+    color: #25D366;
 }
 
 .footer a:hover {
@@ -291,23 +291,24 @@ hr {
         font-size: 14px;
     }
 }
+
 /* Container - wider, more padding */
 .container {
     background-color: rgba(255, 255, 255, 0.95);
-    width: 95%;          /* wider for bigger screens */
-    max-width: 1000px;   /* increase max width */
+    width: 95%;
+    max-width: 1000px;
     margin: 50px auto;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow: hidden;
-    padding: 50px 40px;  /* bigger padding for breathing space */
+    padding: 50px 40px;
     flex: 1;
 }
 
 /* Sections - more vertical space */
 .section {
-    padding: 100px 30px;  /* bigger sections for open feeling */
+    padding: 100px 30px;
 }
 
 /* Header & Tagline - bigger */
@@ -325,12 +326,13 @@ hr {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 15px 20px;          /* spacing inside the border */
+    align-items: center;
+    padding: 15px 20px;
     font-size: 14px;
-    border: 2px solid #4DA6FF;   /* light blue border */
-    border-radius: 8px;          /* rounded corners */
-    margin-bottom: 30px;         /* space below the box */
-    background-color: rgba(255,255,255,0.9); /* optional: slightly opaque background */
+    border: 2px solid #4DA6FF;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    background-color: rgba(255,255,255,0.9);
 }
 @media only screen and (max-width: 600px) {
     .top-links {
@@ -341,12 +343,12 @@ hr {
 /* Space/separation between top links */
 .top-links a {
     text-decoration: none;
-    color: #4DA6FF;           /* light blue default */
-    margin: 0 15px;            /* horizontal spacing */
+    color: #4DA6FF;
+    margin: 0 15px;
     padding: 5px 10px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
-    display: inline-block;     /* ensures spacing works */
+    display: inline-block;
 }
 
 /* WhatsApp link in green */
@@ -372,7 +374,7 @@ hr {
     align-items: center;
     padding: 15px 20px;
     font-size: 14px;
-    border: 2px solid #4DA6FF;   /* light blue border */
+    border: 2px solid #4DA6FF;
     border-radius: 8px;
     margin-bottom: 30px;
     background-color: rgba(255,255,255,0.9);
@@ -381,10 +383,10 @@ hr {
 /* Each link */
 .top-links a {
     text-decoration: none;
-    color: #4DA6FF;        /* light blue default */
+    color: #4DA6FF;
     padding: 5px 10px;
     display: inline-block;
-    position: relative;     /* for separator */
+    position: relative;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -410,23 +412,23 @@ hr {
     color: #4DA6FF;
     margin-left: 15px;
     position: absolute;
-    right: -20px; /* position it to the right of the link */
+    right: -20px;
 }
 
 /* Rates section - time and price close together */
 .rates div {
     display: flex;
-    justify-content: center;  /* align items to left instead of far ends */
-    gap: 100px;                    /* space between time and price */
+    justify-content: center;
+    gap: 100px;
     margin-bottom: 8px;
 }
 /* Intro section image - responsive and styled */
 .intro-image {
-    width: 50%;          /* responsive */
-    max-width: 300px;     /* prevents it being too large */
-    height: auto;         /* keeps proportions */
-    margin-top: 30px;     /* space above image */
-    border-radius: 8px;   /* smooth rounded corners */
+    width: 50%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 30px;
+    border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 } 
 /* Body background */
@@ -435,7 +437,7 @@ body {
     font-family: 'Georgia', serif;
     color: #6bafe2;
 
-    background-color: #ddedff; /* deep professional blue */
+    background-color: #ddedff;
 }
 /* =======================
    HERO SECTION
@@ -446,7 +448,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 
-    padding: 120px 20px;     /* makes it tall */
+    padding: 120px 20px;
     border-radius: 10px;
     margin-bottom: 50px;
 
@@ -458,7 +460,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45); /* dark overlay */
+    background: rgba(0, 0, 0, 0.45);
     border-radius: 10px;
 }
 
