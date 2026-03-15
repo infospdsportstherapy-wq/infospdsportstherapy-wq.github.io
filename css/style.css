@@ -419,8 +419,17 @@ hr {
 .rates div {
     display: flex;
     justify-content: center;
-    gap: 100px;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 8px;
+}
+.rates .price-sep {
+    margin: 0 8px;
+    font-weight: bold;
+}
+.rates .duration,
+.rates .amount {
+    font-weight: 600;
 }
 /* Intro section image - responsive and styled */
 .intro-image {
