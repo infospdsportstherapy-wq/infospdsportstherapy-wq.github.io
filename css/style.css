@@ -82,7 +82,7 @@ padding: 0;
 }
 
 .nav-links li a[href*="wa.me"] {
-    color: #25D366;
+    color: #1d4ed8;
 }
 
 .nav-links li a:hover {
@@ -132,7 +132,7 @@ padding: 0;
 }
 
 .top-links a[href*="wa.me"] {
-    background-color: #25D366;
+    background-color: #1d4ed8;
     color: white;
 }
 
@@ -142,7 +142,7 @@ padding: 0;
 }
 
 .top-links a[href*="wa.me"]:hover {
-    background-color: #1ebe5d;
+    background-color: #1d4ed8;
 }
 
 /* =======================
@@ -249,7 +249,7 @@ hr {
 }
 
 .footer a[href*="wa.me"] {
-    color: #25D366;
+    color: #4DA6FF;
 }
 
 .footer a:hover {
@@ -353,12 +353,12 @@ hr {
 
 /* WhatsApp link in green */
 .top-links a[href*="wa.me"] {
-    background-color: #25D366;
+    background-color: #007BFF;
     color: white;
 }
 
 .top-links a[href*="wa.me"]:hover {
-    background-color: #1ebe5d;
+    background-color: #1d4ed8;
 }
 
 /* Light hover effect for other links */
@@ -392,12 +392,12 @@ hr {
 
 /* WhatsApp link in green */
 .top-links a[href*="wa.me"] {
-    background-color: #25D366;
+    background-color: #1d4ed8;
     color: white;
 }
 
 .top-links a[href*="wa.me"]:hover {
-    background-color: #1ebe5d;
+    background-color: #1d4ed8;
 }
 
 /* Light hover for other links */
