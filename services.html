@@ -7,89 +7,84 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Sports Therapy Services | SPD Sports Therapy
     </title>
 
-    <meta name="description"
-          content="Professional sports therapy, recovery treatment and injury prevention services in Cape Town.">
+    <meta name="description" content="Professional sports therapy, recovery treatment and injury prevention services in Cape Town.">
 
     <!-- Favicon -->
-    <link rel="shortcut icon"
-          href="fav.ico"
-          type="image/x-icon">
+    <link rel="shortcut icon" href="images/logo.jpeg" type="image/jpeg">
+    <link rel="icon" href="images/logo.jpeg" type="image/jpeg">
 
     <!-- Google Fonts -->
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Main CSS -->
-    <link rel="stylesheet"
-          href="css/style.css">
-
-    <!-- Services CSS -->
-    <link rel="stylesheet"
-          href="css/services.css">
+    <link rel="stylesheet" href="css/main.css">
 
 </head>
 
 <body>
- <!-- NAVBAR -->
-        <nav class="navbar">
-
-            <div class="nav-container">
-
-                <div class="nav-logo">
-                    SPD Sports Therapy
-                </div>
-
-                <ul class="nav-links">
-
-                    <li>
-                        <a href="index.html">
-                            Home
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="services.html">
-                            Services
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="about.html">
-                            About
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="index.html#rates">
-                            Rates
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#contact">
-                            Contact
-                        </a>
-                    </li>
-
-                </ul>
-
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images/logo.jpeg" alt="SPD Sports Therapy Logo" class="logo-img">
             </div>
 
-        </nav>
-    <!-- PAGE CONTAINER -->
-    <div class="page-container">
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-       
+            <ul class="nav-links" id="navLinks">
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="services.html">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about.html">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#rates">
+                        Rates
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+    
+    <!-- PAGE CONTAINER -->
+    <div class="container">
 
         <!-- HERO -->
         <header class="hero">
@@ -107,19 +102,12 @@
 
                 <div class="hero-buttons">
 
-                    <a href="https://wa.me/27737531057"
-                       target="_blank"
-                       class="primary-btn">
-
-                       Book a Session
-
+                    <a href="https://wa.me/27737531057" target="_blank" class="primary-btn">
+                       <i class="fas fa-phone"></i> Book a Session
                     </a>
 
-                    <a href="#services"
-                       class="secondary-btn">
-
-                       Explore Services
-
+                    <a href="#services" class="secondary-btn">
+                       <i class="fas fa-chevron-down"></i> Explore Services
                     </a>
 
                 </div>
@@ -148,11 +136,14 @@
         </section>
 
         <!-- SERVICES -->
-        <section class="services-grid"
-                 id="services">
+        <section class="services-grid" id="services">
 
             <!-- SERVICE 1 -->
             <div class="service-card">
+
+                <div class="service-icon">
+                    <i class="fas fa-hands"></i>
+                </div>
 
                 <div class="service-content">
 
@@ -168,17 +159,13 @@
                     </p>
 
                     <ul>
-                        <li>Muscle tension & tightness</li>
-                        <li>Post-training recovery</li>
-                        <li>Improved circulation & mobility</li>
+                        <li><i class="fas fa-check"></i> Muscle tension & tightness</li>
+                        <li><i class="fas fa-check"></i> Post-training recovery</li>
+                        <li><i class="fas fa-check"></i> Improved circulation & mobility</li>
                     </ul>
 
-                    <a href="https://wa.me/27737531057"
-                       target="_blank"
-                       class="service-button">
-
+                    <a href="https://wa.me/27737531057" target="_blank" class="service-button">
                        Book Session
-
                     </a>
 
                 </div>
@@ -187,6 +174,10 @@
 
             <!-- SERVICE 2 -->
             <div class="service-card">
+
+                <div class="service-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
 
                 <div class="service-content">
 
@@ -201,17 +192,13 @@
                     </p>
 
                     <ul>
-                        <li>Reduced fatigue</li>
-                        <li>Faster recovery between sessions</li>
-                        <li>Performance maintenance</li>
+                        <li><i class="fas fa-check"></i> Reduced fatigue</li>
+                        <li><i class="fas fa-check"></i> Faster recovery between sessions</li>
+                        <li><i class="fas fa-check"></i> Performance maintenance</li>
                     </ul>
 
-                    <a href="https://wa.me/27737531057"
-                       target="_blank"
-                       class="service-button">
-
+                    <a href="https://wa.me/27737531057" target="_blank" class="service-button">
                        Book Recovery Session
-
                     </a>
 
                 </div>
@@ -220,6 +207,10 @@
 
             <!-- SERVICE 3 -->
             <div class="service-card">
+
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
 
                 <div class="service-content">
 
@@ -234,17 +225,13 @@
                     </p>
 
                     <ul>
-                        <li>Movement efficiency</li>
-                        <li>Load management support</li>
-                        <li>Long-term musculoskeletal health</li>
+                        <li><i class="fas fa-check"></i> Movement efficiency</li>
+                        <li><i class="fas fa-check"></i> Load management support</li>
+                        <li><i class="fas fa-check"></i> Long-term musculoskeletal health</li>
                     </ul>
 
-                    <a href="https://wa.me/27737531057"
-                       target="_blank"
-                       class="service-button">
-
+                    <a href="https://wa.me/27737531057" target="_blank" class="service-button">
                        Book Maintenance Session
-
                     </a>
 
                 </div>
@@ -265,7 +252,9 @@
                 <div class="why-us-grid">
 
                     <div class="why-card">
-
+                        <div class="why-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
                         <h3>
                             Evidence-Based Treatment
                         </h3>
@@ -278,7 +267,9 @@
                     </div>
 
                     <div class="why-card">
-
+                        <div class="why-icon">
+                            <i class="fas fa-target"></i>
+                        </div>
                         <h3>
                             Athlete Focused
                         </h3>
@@ -291,7 +282,9 @@
                     </div>
 
                     <div class="why-card">
-
+                        <div class="why-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
                         <h3>
                             Personalised Care
                         </h3>
@@ -319,7 +312,13 @@
             <div class="testimonials-grid">
 
                 <div class="testimonial-card">
-
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                     <p>
                         "Professional treatment that genuinely improved
                         my recovery and mobility."
@@ -332,7 +331,13 @@
                 </div>
 
                 <div class="testimonial-card">
-
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                     <p>
                         "Great attention to detail and a very professional approach."
                     </p>
@@ -344,7 +349,13 @@
                 </div>
 
                 <div class="testimonial-card">
-
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
                     <p>
                         "Helped reduce muscle tightness
                         and improve consistency in training."
@@ -372,12 +383,8 @@
                 toward better movement and recovery.
             </p>
 
-            <a href="https://wa.me/27737531057"
-               target="_blank"
-               class="primary-btn">
-
-               Book An Assessment
-
+            <a href="https://wa.me/27737531057" target="_blank" class="primary-btn">
+               <i class="fas fa-calendar"></i> Book An Assessment
             </a>
 
         </section>
@@ -385,8 +392,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="footer"
-            id="contact">
+    <footer class="footer" id="contact">
 
         <div class="footer-content">
 
@@ -409,12 +415,16 @@
             </p>
 
             <p>
+                Facebook:
+                <a href="https://www.facebook.com/profile.php?id=61586366068326" target="_blank">
+                    SPD Sports Therapy
+                </a>
+            </p>
+
+            <p>
                 WhatsApp:
-                <a href="https://wa.me/27737531057"
-                   target="_blank">
-
+                <a href="https://wa.me/27737531057" target="_blank">
                    Chat With Us
-
                 </a>
             </p>
 
@@ -427,14 +437,12 @@
     </footer>
 
     <!-- FLOATING BUTTON -->
-    <a href="https://wa.me/27737531057"
-       class="floating-whatsapp"
-       target="_blank">
-
-       WhatsApp
-
+    <a href="https://wa.me/27737531057" class="floating-whatsapp" target="_blank">
+       <i class="fas fa-phone"></i> WhatsApp
     </a>
 
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>

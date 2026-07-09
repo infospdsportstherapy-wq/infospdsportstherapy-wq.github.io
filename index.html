@@ -21,24 +21,29 @@
     <meta property="og:description" content="Professional sports injury treatment, rehabilitation and athlete recovery services.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.spdsportstherapy.co.za">
-    <meta property="og:image" content="https://www.spdsportstherapy.co.za/images/logo.png">    <meta property="og:image:alt" content="SPD Sports Therapy logo">
+    <meta property="og:image" content="https://www.spdsportstherapy.co.za/images/logo.jpeg">    
+    <meta property="og:image:alt" content="SPD Sports Therapy logo">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SPD Sports Therapy | Sports Massage & Injury Treatment in Cape Town">
     <meta name="twitter:description" content="Professional sports injury treatment, rehabilitation and athlete recovery services.">
-    <meta name="twitter:image" content="https://www.spdsportstherapy.co.za/images/logo.png">
+    <meta name="twitter:image" content="https://www.spdsportstherapy.co.za/images/logo.jpeg">
+    
     <!-- Favicon -->
-    <link rel="shortcut icon" href="fav.ico" type="image/x-icon">
- <!-- Google Fonts -->
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="images/logo.jpeg" type="image/jpeg">
+    <link rel="icon" href="images/logo.jpeg" type="image/jpeg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
 
     <!-- Local Business Schema -->
 <script type="application/ld+json">
@@ -114,10 +119,16 @@
         <!-- Navigation Banner 1 -->
         <nav class="navbar">
             <div class="nav-container">
-                <div class="nav-logo">SPD Sports Therapy</div>
-                <ul class="nav-links">
+                <div class="nav-logo"><img src="images/logo.jpeg" alt="SPD Sports Therapy Logo" class="logo-img"></div>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About</a></li>
                     <li><a href="#rates">Rates</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -148,7 +159,7 @@ individuals in Durbanville and around Cape Town.
 </p>
 
                     <!-- Hero Section -->
-                    <section class="hero-section" style="background-image: url('../images/hero.jpg');">
+                    <section class="hero-section" style="background-image: url('images/hero.jpg');">
                         <div class="hero-content">
                             <h2>Sports Massage & Muscle Therapy in Cape Town</h2>
                             <p>Deep Tissue · Flush Work · Recovery . Across Cape Town</p>
@@ -180,5 +191,8 @@ individuals in Durbanville and around Cape Town.
             </div>
         </footer>
     </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
 </body>
 </html>
