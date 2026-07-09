@@ -4,15 +4,9 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Admin Dashboard | SPD Sports Therapy
-    </title>
-
+    <title>Admin Dashboard | SPD Sports Therapy</title>
     <meta name="description" content="Admin panel for managing reviews.">
 
     <!-- Favicon -->
@@ -27,7 +21,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Admin CSS -->
     <style>
         * {
             margin: 0;
@@ -59,6 +52,7 @@
             padding: 20px;
         }
 
+        /* LOGIN STYLES */
         .login-section {
             min-height: 100vh;
             display: flex;
@@ -144,6 +138,7 @@
             display: block;
         }
 
+        /* DASHBOARD STYLES */
         .dashboard-section {
             display: none;
         }
@@ -158,7 +153,7 @@
             align-items: center;
             margin-bottom: 30px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
         }
 
         .dashboard-header h1 {
@@ -166,22 +161,135 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .logout-btn {
-            padding: 10px 20px;
-            background: var(--danger);
-            color: white;
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .refresh-btn, .logout-btn {
+            padding: 10px 15px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .refresh-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
         }
 
         .logout-btn:hover {
             background: #c0392b;
         }
 
+        /* FILTERS AND SEARCH */
+        .filters-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(68, 136, 255, 0.1);
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* REVIEWS GRID */
         .reviews-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -195,6 +303,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-left: 4px solid var(--warning);
             transition: transform 0.3s;
+            position: relative;
         }
 
         .review-card:hover {
@@ -204,12 +313,26 @@
 
         .review-card.approved {
             border-left-color: var(--success);
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .review-card.rejected {
             border-left-color: var(--danger);
-            opacity: 0.6;
+            opacity: 0.7;
+        }
+
+        .email-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #e8f4f8;
+            color: #0066cc;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .review-status {
@@ -237,9 +360,6 @@
         }
 
         .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
             margin-bottom: 12px;
         }
 
@@ -300,7 +420,8 @@
         }
 
         .btn-approve,
-        .btn-reject {
+        .btn-reject,
+        .btn-resend {
             flex: 1;
             min-width: 100px;
             padding: 10px;
@@ -334,18 +455,24 @@
             background: #c0392b;
         }
 
+        .btn-resend {
+            background: #3498db;
+            color: white;
+            flex: 0 1 auto;
+        }
+
+        .btn-resend:hover {
+            background: #2980b9;
+        }
+
         .btn-approve:disabled,
-        .btn-reject:disabled {
+        .btn-reject:disabled,
+        .btn-resend:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-light);
-        }
-
+        .loading,
         .no-reviews {
             text-align: center;
             padding: 40px;
@@ -354,31 +481,99 @@
             color: var(--text-light);
         }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
-        .stat-card {
-            background: white;
-            padding: 20px;
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .stat-number {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color);
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
         }
 
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 5px;
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-body label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .modal-body textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-body textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(68, 136, 255, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .modal-btn-cancel {
+            background: #ddd;
+            color: var(--text-dark);
+        }
+
+        .modal-btn-cancel:hover {
+            background: #ccc;
+        }
+
+        .modal-btn-confirm {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-btn-confirm:hover {
+            background: #c0392b;
         }
 
         @media (max-width: 768px) {
@@ -399,25 +594,36 @@
             .btn-reject {
                 min-width: auto;
             }
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
         }
     </style>
-
 </head>
 
 <body>
-
     <!-- LOGIN SECTION -->
     <div class="login-section" id="loginSection">
         <div class="login-form">
             <h1><i class="fas fa-lock"></i> Admin Login</h1>
-            <p>Enter your admin password to access the dashboard</p>
+            <p>Enter your admin credentials to access the dashboard</p>
 
             <div class="error-message" id="loginError"></div>
 
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="adminPassword">Admin Password</label>
-                    <input type="password" id="adminPassword" name="adminPassword" placeholder="Enter admin password" required>
+                    <label for="adminUsername">Username</label>
+                    <input type="text" id="adminUsername" name="adminUsername" placeholder="Enter username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" name="adminPassword" placeholder="Enter password" required>
                 </div>
 
                 <button type="submit" class="login-btn">
@@ -430,14 +636,20 @@
     <!-- DASHBOARD SECTION -->
     <div class="dashboard-section" id="dashboardSection">
         <div class="admin-container">
+            <!-- Header -->
             <div class="dashboard-header">
                 <div>
                     <h1><i class="fas fa-chart-bar"></i> Review Management Dashboard</h1>
                     <p style="color: var(--text-light); margin-top: 5px;">Manage and approve user-submitted reviews</p>
                 </div>
-                <button class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
+                <div class="header-actions">
+                    <button class="refresh-btn" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
             </div>
 
             <!-- Stats -->
@@ -456,18 +668,55 @@
                 </div>
             </div>
 
-            <!-- Reviews Grid -->
+            <!-- Filters and Search -->
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label>Filter by Status</label>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-status="">All Reviews</button>
+                        <button class="filter-btn" data-status="pending">Pending</button>
+                        <button class="filter-btn" data-status="approved">Approved</button>
+                        <button class="filter-btn" data-status="rejected">Rejected</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Search by Reviewer Name</label>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Type reviewer name...">
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
             <div id="loadingIndicator" class="loading">
                 <i class="fas fa-spinner fa-spin"></i> Loading reviews...
             </div>
 
+            <!-- Reviews Grid -->
             <div id="reviewsContainer" class="reviews-grid" style="display: none;">
                 <!-- Reviews will be loaded here -->
             </div>
 
+            <!-- No Reviews Message -->
             <div id="noReviews" class="no-reviews" style="display: none;">
                 <i class="fas fa-check-circle"></i>
-                <p>All caught up! No pending reviews at the moment.</p>
+                <p>No reviews found matching your filters.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejection Modal -->
+    <div class="modal" id="rejectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-times"></i> Reject Review
+            </div>
+            <div class="modal-body">
+                <label>Rejection Reason (optional)</label>
+                <textarea id="rejectionReason" placeholder="Explain why this review is being rejected..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelRejectBtn">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmRejectBtn">Reject</button>
             </div>
         </div>
     </div>
@@ -475,43 +724,68 @@
     <script>
         // State management
         let isAuthenticated = false;
-        let adminPassword = '';
         let allReviews = [];
+        let filteredReviews = [];
+        let currentStatusFilter = '';
+        let currentSearchFilter = '';
+        let rejectingReviewId = null;
+
+        // ==================== CHECK AUTH ON PAGE LOAD ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+
+        async function checkAuthentication() {
+            try {
+                const response = await fetch('../api/check_auth.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const result = await response.json();
+
+                if (result.authenticated) {
+                    isAuthenticated = true;
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').classList.add('show');
+                    loadReviews();
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+            }
+        }
 
         // ==================== LOGIN ====================
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            adminPassword = document.getElementById('adminPassword').value;
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
             const loginError = document.getElementById('loginError');
             loginError.classList.remove('show');
 
             try {
-                // Test authentication by trying to fetch all reviews
                 const formData = new FormData();
-                formData.append('adminPassword', adminPassword);
-                formData.append('action', 'test');
+                formData.append('username', username);
+                formData.append('password', password);
 
-                const response = await fetch('../api/approve_review.php', {
+                const response = await fetch('../api/admin_login.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 });
 
-                // If we get 403, password is wrong
-                if (response.status === 403) {
-                    loginError.textContent = 'Invalid admin password';
+                const result = await response.json();
+
+                if (result.success) {
+                    isAuthenticated = true;
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').classList.add('show');
+                    loadReviews();
+                } else {
+                    loginError.textContent = result.message || 'Login failed';
                     loginError.classList.add('show');
-                    return;
                 }
-
-                // Password is correct (or request went through)
-                isAuthenticated = true;
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('dashboardSection').classList.add('show');
-
-                // Load reviews
-                loadReviews();
-
             } catch (error) {
                 console.error('Login error:', error);
                 loginError.textContent = 'An error occurred during login';
@@ -520,15 +794,45 @@
         });
 
         // ==================== LOGOUT ====================
-        document.getElementById('logoutBtn').addEventListener('click', function() {
+        document.getElementById('logoutBtn').addEventListener('click', async function() {
+            try {
+                await fetch('../api/admin_logout.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+
             isAuthenticated = false;
-            adminPassword = '';
             allReviews = [];
+            filteredReviews = [];
 
             document.getElementById('loginSection').style.display = 'flex';
             document.getElementById('dashboardSection').classList.remove('show');
             document.getElementById('loginForm').reset();
-            document.getElementById('adminPassword').focus();
+            document.getElementById('adminUsername').focus();
+        });
+
+        // ==================== REFRESH BUTTON ====================
+        document.getElementById('refreshBtn').addEventListener('click', function() {
+            loadReviews();
+        });
+
+        // ==================== FILTER BUTTONS ====================
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentStatusFilter = this.dataset.status;
+                filterAndDisplayReviews();
+            });
+        });
+
+        // ==================== SEARCH BOX ====================
+        document.getElementById('searchBox').addEventListener('input', function() {
+            currentSearchFilter = this.value.toLowerCase();
+            filterAndDisplayReviews();
         });
 
         // ==================== LOAD REVIEWS ====================
@@ -542,8 +846,10 @@
             noReviews.style.display = 'none';
 
             try {
-                // Fetch all reviews (you'll need to create a get_all_reviews.php endpoint)
-                const response = await fetch('../api/get_all_reviews.php?adminPassword=' + encodeURIComponent(adminPassword));
+                const response = await fetch('../api/get_all_reviews.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
 
                 if (!response.ok) {
                     throw new Error('Failed to load reviews');
@@ -551,11 +857,12 @@
 
                 const result = await response.json();
 
-                if (result.success && result.data.length > 0) {
+                if (result.success && result.data && result.data.length > 0) {
                     allReviews = result.data;
-                    displayReviews();
+                    filterAndDisplayReviews();
                     updateStats();
                 } else {
+                    noReviews.innerHTML = '<i class="fas fa-inbox"></i><p>No reviews available yet.</p>';
                     noReviews.style.display = 'block';
                     updateStats();
                 }
@@ -568,12 +875,36 @@
             }
         }
 
+        // ==================== FILTER AND DISPLAY REVIEWS ====================
+        function filterAndDisplayReviews() {
+            filteredReviews = allReviews.filter(review => {
+                // Status filter
+                if (currentStatusFilter && review.status !== currentStatusFilter) {
+                    return false;
+                }
+
+                // Search filter
+                if (currentSearchFilter && !review.full_name.toLowerCase().includes(currentSearchFilter)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            if (filteredReviews.length > 0) {
+                displayReviews();
+            } else {
+                document.getElementById('reviewsContainer').style.display = 'none';
+                document.getElementById('noReviews').style.display = 'block';
+            }
+        }
+
         // ==================== DISPLAY REVIEWS ====================
         function displayReviews() {
             const reviewsContainer = document.getElementById('reviewsContainer');
             reviewsContainer.innerHTML = '';
 
-            allReviews.forEach(review => {
+            filteredReviews.forEach(review => {
                 const reviewCard = createReviewCard(review);
                 reviewsContainer.appendChild(reviewCard);
             });
@@ -581,35 +912,48 @@
             reviewsContainer.style.display = 'grid';
         }
 
+        // ==================== CREATE REVIEW CARD ====================
         function createReviewCard(review) {
             const card = document.createElement('div');
             card.className = `review-card ${review.status}`;
             card.id = `review-${review.review_id}`;
 
             const statusBadge = `<span class="review-status ${review.status}">${review.status.toUpperCase()}</span>`;
-
             const stars = generateStars(review.rating);
-
             const adminNotes = review.admin_notes ? `<div class="admin-notes"><strong>Admin Notes:</strong> ${escapeHtml(review.admin_notes)}</div>` : '';
 
-            const actionButtons = review.status === 'pending' ? `
-                <div class="review-actions">
-                    <button class="btn-approve" onclick="approveReview(${review.review_id}, this)">
-                        <i class="fas fa-check"></i> Approve
-                    </button>
-                    <button class="btn-reject" onclick="showRejectForm(${review.review_id}, this)">
-                        <i class="fas fa-times"></i> Reject
-                    </button>
-                </div>
-            ` : '';
+            // Email sent badge
+            const emailBadge = review.email_sent ? '<div class="email-badge"><i class="fas fa-envelope-open-text"></i> Email Sent</div>' : '';
+
+            // Action buttons
+            let actionButtons = '';
+            if (review.status === 'pending') {
+                actionButtons = `
+                    <div class="review-actions">
+                        <button class="btn-approve" onclick="approveReview(${review.review_id}, this)">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button class="btn-reject" onclick="showRejectModal(${review.review_id})">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </div>
+                `;
+            } else if (review.status === 'approved') {
+                actionButtons = `
+                    <div class="review-actions">
+                        <button class="btn-resend" onclick="resendEmail(${review.review_id}, this)">
+                            <i class="fas fa-redo"></i> Resend Email
+                        </button>
+                    </div>
+                `;
+            }
 
             card.innerHTML = `
+                ${emailBadge}
                 <div class="review-header">
-                    <div>
-                        <div class="reviewer-name">${escapeHtml(review.full_name)}</div>
-                        <div class="reviewer-activity">${escapeHtml(review.activity)}</div>
-                        <div class="reviewer-email"><i class="fas fa-envelope"></i> ${escapeHtml(review.email)}</div>
-                    </div>
+                    <div class="reviewer-name">${escapeHtml(review.full_name)}</div>
+                    <div class="reviewer-activity">${escapeHtml(review.activity)}</div>
+                    <div class="reviewer-email"><i class="fas fa-envelope"></i> ${escapeHtml(review.email)}</div>
                 </div>
 
                 ${statusBadge}
@@ -634,6 +978,7 @@
             return card;
         }
 
+        // ==================== HELPER FUNCTIONS ====================
         function generateStars(rating) {
             let stars = '';
             for (let i = 0; i < rating; i++) {
@@ -643,13 +988,7 @@
         }
 
         function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
             return text.replace(/[&<>"']/g, m => map[m]);
         }
 
@@ -664,37 +1003,25 @@
 
             try {
                 const formData = new FormData();
-                formData.append('adminPassword', adminPassword);
                 formData.append('reviewId', reviewId);
                 formData.append('action', 'approve');
 
                 const response = await fetch('../api/approve_review.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
-                    // Update UI
-                    const card = document.getElementById(`review-${reviewId}`);
-                    card.classList.remove('pending');
-                    card.classList.add('approved');
-
-                    // Update review in allReviews array
                     const review = allReviews.find(r => r.review_id === reviewId);
                     if (review) {
                         review.status = 'approved';
                         review.reviewed_at = result.reviewed_at;
                     }
-
-                    // Refresh stats
                     updateStats();
-
-                    // Reload card to hide action buttons
-                    setTimeout(() => {
-                        loadReviews();
-                    }, 500);
+                    filterAndDisplayReviews();
                 } else {
                     alert('Error: ' + result.message);
                     button.disabled = false;
@@ -707,59 +1034,89 @@
         }
 
         // ==================== REJECT REVIEW ====================
-        function showRejectForm(reviewId, button) {
-            const notes = prompt('Enter rejection reason (optional):');
-
-            if (notes !== null) {
-                rejectReview(reviewId, notes, button);
-            }
+        function showRejectModal(reviewId) {
+            rejectingReviewId = reviewId;
+            document.getElementById('rejectionReason').value = '';
+            document.getElementById('rejectModal').classList.add('show');
         }
 
-        async function rejectReview(reviewId, notes, button) {
-            button.disabled = true;
+        document.getElementById('cancelRejectBtn').addEventListener('click', function() {
+            document.getElementById('rejectModal').classList.remove('show');
+            rejectingReviewId = null;
+        });
+
+        document.getElementById('confirmRejectBtn').addEventListener('click', async function() {
+            if (rejectingReviewId === null) return;
+
+            const reason = document.getElementById('rejectionReason').value;
+            document.getElementById('rejectModal').classList.remove('show');
 
             try {
                 const formData = new FormData();
-                formData.append('adminPassword', adminPassword);
-                formData.append('reviewId', reviewId);
+                formData.append('reviewId', rejectingReviewId);
                 formData.append('action', 'reject');
-                formData.append('adminNotes', notes);
+                formData.append('adminNotes', reason);
 
                 const response = await fetch('../api/approve_review.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
-                    // Update UI
-                    const card = document.getElementById(`review-${reviewId}`);
-                    card.classList.remove('pending');
-                    card.classList.add('rejected');
-
-                    // Update review in allReviews array
-                    const review = allReviews.find(r => r.review_id === reviewId);
+                    const review = allReviews.find(r => r.review_id === rejectingReviewId);
                     if (review) {
                         review.status = 'rejected';
-                        review.admin_notes = notes;
+                        review.admin_notes = reason;
                         review.reviewed_at = result.reviewed_at;
                     }
-
-                    // Refresh stats
                     updateStats();
-
-                    // Reload card to hide action buttons
-                    setTimeout(() => {
-                        loadReviews();
-                    }, 500);
+                    filterAndDisplayReviews();
                 } else {
                     alert('Error: ' + result.message);
-                    button.disabled = false;
                 }
             } catch (error) {
                 console.error('Error rejecting review:', error);
                 alert('Error rejecting review');
+            }
+
+            rejectingReviewId = null;
+        });
+
+        // ==================== RESEND EMAIL ====================
+        async function resendEmail(reviewId, button) {
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            try {
+                const formData = new FormData();
+                formData.append('reviewId', reviewId);
+
+                const response = await fetch('../api/resend_review_email.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    button.innerHTML = '<i class="fas fa-check"></i> Email Sent!';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="fas fa-redo"></i> Resend Email';
+                        button.disabled = false;
+                    }, 2000);
+                } else {
+                    alert('Error: ' + result.message);
+                    button.innerHTML = '<i class="fas fa-redo"></i> Resend Email';
+                    button.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error resending email:', error);
+                alert('Error resending email');
+                button.innerHTML = '<i class="fas fa-redo"></i> Resend Email';
                 button.disabled = false;
             }
         }
@@ -774,8 +1131,16 @@
             document.getElementById('approvedCount').textContent = approved;
             document.getElementById('rejectedCount').textContent = rejected;
         }
-    </script>
 
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('rejectModal');
+            if (event.target === modal) {
+                modal.classList.remove('show');
+                rejectingReviewId = null;
+            }
+        });
+    </script>
 </body>
 
 </html>

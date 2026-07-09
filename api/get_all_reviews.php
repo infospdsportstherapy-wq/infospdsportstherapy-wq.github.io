@@ -1,12 +1,15 @@
 <?php
 /*==========================================================
   GET ALL REVIEWS API
-  Fetches all reviews for admin dashboard (requires auth)
+  Fetches all reviews for admin dashboard (requires session auth)
 ==========================================================*/
+
+session_start();
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Credentials: true');
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -24,15 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit();
 }
 
-// Basic authentication - in production, use proper session/token auth
-$adminPassword = 'admin123'; // CHANGE THIS to a strong password in production
-$providedPassword = isset($_GET['adminPassword']) ? $_GET['adminPassword'] : '';
-
-if ($providedPassword !== $adminPassword) {
-    http_response_code(403);
+// Check session authentication
+if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
+    http_response_code(401);
     echo json_encode([
         'success' => false,
-        'message' => 'Unauthorized access'
+        'message' => 'Unauthorized - Please log in'
     ]);
     exit();
 }

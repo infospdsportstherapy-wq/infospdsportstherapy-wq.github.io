@@ -1,15 +1,13 @@
 <?php
 /*==========================================================
-  APPROVE REVIEW API
-  Handles admin approval/rejection of pending reviews
+  EMAIL ACTION API
+  Handles approve/reject actions from email links
+  Uses one-time tokens instead of session auth
 ==========================================================*/
-
-session_start();
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -17,31 +15,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Only accept POST requests
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Method not allowed'
-    ]);
-    exit();
-}
+// Get parameters
+$token = isset($_GET['token']) ? trim($_GET['token']) : '';
+$action = isset($_GET['action']) ? trim($_GET['action']) : '';
+$reviewId = isset($_GET['review_id']) ? intval($_GET['review_id']) : 0;
 
-// Check session authentication
-if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
-    http_response_code(401);
+// Validate inputs
+if (empty($token) || !in_array($action, ['approve', 'reject']) || $reviewId <= 0) {
+    http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Unauthorized - Please log in'
+        'message' => 'Invalid request parameters'
     ]);
     exit();
 }
 
 // Database configuration
 $db_host = 'localhost';
-$db_name = 'spd_sports_therapy'; // Update with your database name
-$db_user = 'root'; // Update with your database user
-$db_password = ''; // Update with your database password
+$db_name = 'spd_sports_therapy';
+$db_user = 'root';
+$db_password = '';
 
 try {
     // Create PDO connection
@@ -55,34 +48,57 @@ try {
         ]
     );
 
-    // Get and validate data
-    $reviewId = isset($_POST['reviewId']) ? intval($_POST['reviewId']) : null;
-    $action = isset($_POST['action']) ? trim($_POST['action']) : '';
-    $adminNotes = isset($_POST['adminNotes']) ? trim($_POST['adminNotes']) : '';
+    // Verify token exists, is valid, not expired, and not used
+    $tokenQuery = "
+        SELECT token_id, review_id, action, is_used, expires_at
+        FROM email_tokens
+        WHERE token = :token
+        AND review_id = :review_id
+        AND action = :action
+        LIMIT 1
+    ";
 
-    // Validate inputs
-    if (!$reviewId || $reviewId <= 0) {
-        http_response_code(400);
+    $stmt = $pdo->prepare($tokenQuery);
+    $stmt->execute([
+        ':token' => $token,
+        ':review_id' => $reviewId,
+        ':action' => $action
+    ]);
+    $emailToken = $stmt->fetch();
+
+    if (!$emailToken) {
+        http_response_code(404);
         echo json_encode([
             'success' => false,
-            'message' => 'Invalid review ID'
+            'message' => 'Invalid token or action'
         ]);
         exit();
     }
 
-    if (!in_array($action, ['approve', 'reject'])) {
+    // Check if token is already used
+    if ($emailToken['is_used']) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Action must be "approve" or "reject"'
+            'message' => 'Token has already been used'
+        ]);
+        exit();
+    }
+
+    // Check if token is expired
+    if (strtotime($emailToken['expires_at']) < time()) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Token has expired'
         ]);
         exit();
     }
 
     // Check if review exists
-    $checkQuery = "SELECT review_id, status FROM reviews WHERE review_id = :reviewId";
-    $stmt = $pdo->prepare($checkQuery);
-    $stmt->execute([':reviewId' => $reviewId]);
+    $reviewQuery = "SELECT review_id, status FROM reviews WHERE review_id = :review_id";
+    $stmt = $pdo->prepare($reviewQuery);
+    $stmt->execute([':review_id' => $reviewId]);
     $review = $stmt->fetch();
 
     if (!$review) {
@@ -97,21 +113,29 @@ try {
     // Determine new status
     $newStatus = ($action === 'approve') ? 'approved' : 'rejected';
 
-    // Update review
+    // Update review status
     $updateQuery = "
         UPDATE reviews
         SET status = :status,
-            admin_notes = :adminNotes,
             reviewed_at = NOW()
-        WHERE review_id = :reviewId
+        WHERE review_id = :review_id
     ";
 
     $stmt = $pdo->prepare($updateQuery);
     $stmt->execute([
         ':status' => $newStatus,
-        ':adminNotes' => $adminNotes,
-        ':reviewId' => $reviewId
+        ':review_id' => $reviewId
     ]);
+
+    // Mark token as used
+    $tokenUsedQuery = "
+        UPDATE email_tokens
+        SET is_used = TRUE, used_at = NOW()
+        WHERE token_id = :token_id
+    ";
+
+    $stmt = $pdo->prepare($tokenUsedQuery);
+    $stmt->execute([':token_id' => $emailToken['token_id']]);
 
     // Return success response
     http_response_code(200);

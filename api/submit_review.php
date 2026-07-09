@@ -165,6 +165,34 @@ try {
         // Commit transaction
         $pdo->commit();
 
+        // Send admin notification email (non-blocking)
+        $emailData = [
+            'reviewId' => $reviewId,
+            'reviewerName' => $fullName,
+            'reviewerEmail' => $email,
+            'activity' => $activity,
+            'rating' => $rating,
+            'reviewText' => $review
+        ];
+
+        // Build POST data for email notification
+        $postData = http_build_query($emailData);
+
+        // Use cURL or file_get_contents to call send_review_notification.php
+        $emailUrl = 'http://localhost/api/send_review_notification.php';
+        
+        // Try to send email notification (don't fail review submission if email fails)
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'content' => $postData,
+                'timeout' => 5
+            ]
+        ]);
+
+        @file_get_contents($emailUrl, false, $context);
+
         // Return success response
         http_response_code(201);
         echo json_encode([

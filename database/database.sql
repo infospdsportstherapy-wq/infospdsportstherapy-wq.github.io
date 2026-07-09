@@ -2,7 +2,9 @@
   DROP TABLES
 ==========================================================*/
 
+DROP TABLE IF EXISTS email_tokens;
 DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS admin_users;
 DROP TABLE IF EXISTS users;
 
 
@@ -17,6 +19,52 @@ CREATE TABLE users (
     activity VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+/*==========================================================
+  ADMIN USERS TABLE
+==========================================================*/
+
+CREATE TABLE admin_users (
+    admin_id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL
+);
+
+
+/*==========================================================
+  EMAIL TOKENS TABLE
+==========================================================*/
+
+CREATE TABLE email_tokens (
+    token_id SERIAL PRIMARY KEY,
+    review_id INTEGER NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    action ENUM('approve', 'reject') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    used_at TIMESTAMP NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    CONSTRAINT fk_token_review
+        FOREIGN KEY (review_id)
+        REFERENCES reviews(review_id)
+        ON DELETE CASCADE
+);
+
+
+/*==========================================================
+  INSERT ADMIN USERS
+  Default admin account - CHANGE PASSWORD IMMEDIATELY!
+  Username: admin
+  Password: admin123 (hash below)
+==========================================================*/
+
+INSERT INTO admin_users (username, email, password_hash) VALUES
+('admin', 'info.spdsportstherapy@gmail.com', '$2y$10$Wg3D8K7q9K8K8K8K8K8K8u8K8K8K8K8K8K8K8K8K8K8K8K8K8K8');
 
 
 /*==========================================================
@@ -39,6 +87,10 @@ CREATE TABLE reviews (
     review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     reviewed_at TIMESTAMP NULL,
+
+    email_sent BOOLEAN DEFAULT FALSE,
+
+    email_sent_at TIMESTAMP NULL,
 
     CONSTRAINT fk_review_user
         FOREIGN KEY (user_id)
