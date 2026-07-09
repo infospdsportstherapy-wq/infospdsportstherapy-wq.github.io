@@ -149,21 +149,29 @@ function displayAllReviews() {
 
 // Start the auto-scroll loop
 function startAutoScroll() {
-    // Auto-scroll to next review every 5 seconds
+    // Auto-scroll to next group of 3 reviews every 5 seconds
     setInterval(() => {
         rotateToNextReview();
     }, 5000);
 }
 
-// Scroll to the next review in sequence
+// Scroll to the next group of 2 reviews in sequence
 function rotateToNextReview() {
     const carousel = document.getElementById('reviewsCarousel');
     if (!carousel || allReviews.length === 0) return;
 
-    // Move to next review
-    currentReviewIndex = (currentReviewIndex + 1) % allReviews.length;
+    // Calculate number of full groups of 2
+    const reviewsPerPage = 2;
+    const totalPages = Math.ceil(allReviews.length / reviewsPerPage);
+    
+    // Get current page (0-indexed)
+    const currentPage = Math.floor(currentReviewIndex / reviewsPerPage);
+    const nextPage = (currentPage + 1) % totalPages;
+    
+    // Move to the first review of the next page group
+    currentReviewIndex = nextPage * reviewsPerPage;
 
-    // Calculate scroll position (each card is 320px + 25px gap)
+    // Calculate scroll position (each card is 320px + 25px gap = 345px per card)
     const scrollPosition = currentReviewIndex * 345;
 
     // Smooth scroll to the calculated position

@@ -720,30 +720,17 @@ a:hover {
 .testimonials-carousel {
     display: flex;
     gap: 25px;
-    overflow-x: auto;
+    overflow-x: hidden;
     padding-bottom: 15px;
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary-blue) var(--light-blue);
+    max-width: 665px;
+    margin: 0 auto;
+    width: 665px;
 }
 
 /* Webkit scrollbar styling */
 .testimonials-carousel::-webkit-scrollbar {
-    height: 8px;
-}
-
-.testimonials-carousel::-webkit-scrollbar-track {
-    background: var(--light-blue);
-    border-radius: 10px;
-}
-
-.testimonials-carousel::-webkit-scrollbar-thumb {
-    background: var(--primary-blue);
-    border-radius: 10px;
-}
-
-.testimonials-carousel::-webkit-scrollbar-thumb:hover {
-    background: var(--dark-blue);
+    display: none;
 }
 
 /* Slide in animation */
