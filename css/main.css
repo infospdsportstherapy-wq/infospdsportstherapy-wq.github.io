@@ -715,6 +715,8 @@ a:hover {
     position: relative;
     overflow: hidden;
     margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
 }
 
 .testimonials-carousel {
@@ -1148,8 +1150,17 @@ a:hover {
         gap: 20px;
     }
 
+    .testimonials-scroll-container {
+        display: flex;
+        justify-content: center;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
     .testimonials-carousel {
         gap: 15px;
+        max-width: 280px;
+        width: 280px;
     }
 
     .testimonial-card {
@@ -1444,9 +1455,19 @@ a:hover {
         gap: 15px;
     }
 
+    .testimonials-scroll-container {
+        display: flex;
+        justify-content: center;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+
     .testimonials-carousel {
         gap: 12px;
         padding-bottom: 10px;
+        max-width: 260px;
+        width: 260px;
+        margin: 0 auto;
     }
 
     .testimonial-card {

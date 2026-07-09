@@ -100,6 +100,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (carousel) {
         // Load all reviews initially
         loadAllReviews();
+        
+        // Handle window resize to adjust for responsive changes
+        window.addEventListener('resize', () => {
+            currentReviewIndex = 0;
+        });
     }
 });
 
@@ -149,19 +154,27 @@ function displayAllReviews() {
 
 // Start the auto-scroll loop
 function startAutoScroll() {
-    // Auto-scroll to next group of 3 reviews every 5 seconds
+    // Auto-scroll to next group of reviews every 5 seconds
     setInterval(() => {
         rotateToNextReview();
     }, 5000);
 }
 
-// Scroll to the next group of 2 reviews in sequence
+// Get reviews per page based on screen size
+function getReviewsPerPage() {
+    if (window.innerWidth <= 768) {
+        return 1; // Mobile: 1 review at a time
+    }
+    return 2; // Desktop: 2 reviews at a time
+}
+
+// Scroll to the next group of reviews in sequence
 function rotateToNextReview() {
     const carousel = document.getElementById('reviewsCarousel');
     if (!carousel || allReviews.length === 0) return;
 
-    // Calculate number of full groups of 2
-    const reviewsPerPage = 2;
+    // Calculate number of full groups
+    const reviewsPerPage = getReviewsPerPage();
     const totalPages = Math.ceil(allReviews.length / reviewsPerPage);
     
     // Get current page (0-indexed)
