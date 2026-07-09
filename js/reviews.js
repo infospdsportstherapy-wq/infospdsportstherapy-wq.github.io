@@ -93,6 +93,21 @@ function createReviewCardFromData(review) {
     return card;
 }
 
+// Get the actual card width and gap from rendered DOM
+function getCardDimensions() {
+    const carousel = document.getElementById('reviewsCarousel');
+    if (!carousel || carousel.children.length === 0) {
+        return { cardWidth: 320, gap: 25 }; // Fallback defaults
+    }
+    
+    const firstCard = carousel.children[0];
+    const computedStyle = window.getComputedStyle(carousel);
+    const gap = parseFloat(computedStyle.gap) || 25;
+    const cardWidth = firstCard.offsetWidth;
+    
+    return { cardWidth, gap };
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.getElementById('reviewsCarousel');
@@ -104,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Handle window resize to adjust for responsive changes
         window.addEventListener('resize', () => {
             currentReviewIndex = 0;
+            // Recalculate on resize (layout may have changed)
         });
     }
 });
@@ -173,7 +189,7 @@ function rotateToNextReview() {
     const carousel = document.getElementById('reviewsCarousel');
     if (!carousel || allReviews.length === 0) return;
 
-    // Calculate number of full groups
+    // Calculate number of reviews to show per page based on screen size
     const reviewsPerPage = getReviewsPerPage();
     const totalPages = Math.ceil(allReviews.length / reviewsPerPage);
     
@@ -184,8 +200,12 @@ function rotateToNextReview() {
     // Move to the first review of the next page group
     currentReviewIndex = nextPage * reviewsPerPage;
 
-    // Calculate scroll position (each card is 320px + 25px gap = 345px per card)
-    const scrollPosition = currentReviewIndex * 345;
+    // Get actual card dimensions from DOM
+    const { cardWidth, gap } = getCardDimensions();
+    
+    // Calculate scroll position: scroll by (cards per page) × (card width + gap)
+    const scrollOffset = reviewsPerPage * (cardWidth + gap);
+    const scrollPosition = currentPage === (totalPages - 1) ? 0 : nextPage * scrollOffset;
 
     // Smooth scroll to the calculated position
     carousel.scrollTo({
