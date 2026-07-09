@@ -2,7 +2,11 @@
 /*==========================================================
   SUBMIT REVIEW API
   Handles new review submissions from users
+  Uses centralized config for database credentials
 ==========================================================*/
+
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/email.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -24,23 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// Database configuration
-$db_host = 'localhost';
-$db_name = 'spd_sports_therapy'; // Update with your database name
-$db_user = 'root'; // Update with your database user
-$db_password = ''; // Update with your database password
-
 try {
-    // Create PDO connection
-    $pdo = new PDO(
-        "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4",
-        $db_user,
-        $db_password,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
+    // Create PDO connection using config
+    $pdo = getDbConnection();
 
     // Get and validate form data
     $fullName = isset($_POST['fullName']) ? trim($_POST['fullName']) : '';
@@ -165,33 +155,40 @@ try {
         // Commit transaction
         $pdo->commit();
 
-        // Send admin notification email (non-blocking)
-        $emailData = [
-            'reviewId' => $reviewId,
-            'reviewerName' => $fullName,
-            'reviewerEmail' => $email,
-            'activity' => $activity,
-            'rating' => $rating,
-            'reviewText' => $review
-        ];
-
-        // Build POST data for email notification
-        $postData = http_build_query($emailData);
-
-        // Use cURL or file_get_contents to call send_review_notification.php
-        $emailUrl = 'http://localhost/api/send_review_notification.php';
+        // Generate approval tokens and send admin notification email asynchronously
+        $approveToken = generateEmailToken($reviewId, 'approve', 24);
+        $rejectToken = generateEmailToken($reviewId, 'reject', 24);
         
-        // Try to send email notification (don't fail review submission if email fails)
-        $context = stream_context_create([
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'content' => $postData,
-                'timeout' => 5
-            ]
-        ]);
-
-        @file_get_contents($emailUrl, false, $context);
+        if ($approveToken && $rejectToken) {
+            $siteUrl = getConfig('SITE_URL');
+            $adminEmail = getConfig('ADMIN_EMAIL');
+            
+            $approveUrl = $siteUrl . "/api/email_action.php?token=" . urlencode($approveToken);
+            $rejectUrl = $siteUrl . "/api/email_action.php?token=" . urlencode($rejectToken);
+            
+            // Render and send email
+            $htmlBody = renderEmailTemplate('admin-notification', [
+                'reviewerName' => $fullName,
+                'reviewerEmail' => $email,
+                'activity' => $activity,
+                'rating' => $rating,
+                'reviewText' => $review,
+                'approveLink' => $approveUrl,
+                'rejectLink' => $rejectUrl,
+                'siteName' => 'SPD Sports Therapy'
+            ]);
+            
+            sendEmail(
+                $adminEmail,
+                "New Review from " . $fullName . " - SPD Sports Therapy",
+                $htmlBody
+            );
+            
+            // Update review email_sent flag
+            $updateQuery = "UPDATE reviews SET email_sent = TRUE, email_sent_at = NOW() WHERE review_id = :review_id";
+            $stmt = $pdo->prepare($updateQuery);
+            $stmt->execute([':review_id' => $reviewId]);
+        }
 
         // Return success response
         http_response_code(201);

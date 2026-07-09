@@ -2,7 +2,11 @@
 /*==========================================================
   APPROVE REVIEW API
   Handles admin approval/rejection of pending reviews
+  Uses centralized config for database credentials
 ==========================================================*/
+
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/email.php';
 
 session_start();
 
@@ -37,23 +41,9 @@ if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
     exit();
 }
 
-// Database configuration
-$db_host = 'localhost';
-$db_name = 'spd_sports_therapy'; // Update with your database name
-$db_user = 'root'; // Update with your database user
-$db_password = ''; // Update with your database password
-
 try {
-    // Create PDO connection
-    $pdo = new PDO(
-        "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4",
-        $db_user,
-        $db_password,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
+    // Create PDO connection using config
+    $pdo = getDbConnection();
 
     // Get and validate data
     $reviewId = isset($_POST['reviewId']) ? intval($_POST['reviewId']) : null;

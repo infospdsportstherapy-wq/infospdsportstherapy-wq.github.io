@@ -3,7 +3,11 @@
   EMAIL ACTION API
   Handles approve/reject actions from email links
   Uses one-time tokens instead of session auth
+  Uses centralized config for database credentials
 ==========================================================*/
+
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../config/email.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -17,36 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Get parameters
 $token = isset($_GET['token']) ? trim($_GET['token']) : '';
-$action = isset($_GET['action']) ? trim($_GET['action']) : '';
-$reviewId = isset($_GET['review_id']) ? intval($_GET['review_id']) : 0;
 
-// Validate inputs
-if (empty($token) || !in_array($action, ['approve', 'reject']) || $reviewId <= 0) {
+// Validate token
+if (empty($token)) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Invalid request parameters'
+        'message' => 'Invalid request - missing token'
     ]);
     exit();
 }
 
-// Database configuration
-$db_host = 'localhost';
-$db_name = 'spd_sports_therapy';
-$db_user = 'root';
-$db_password = '';
-
 try {
-    // Create PDO connection
-    $pdo = new PDO(
-        "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4",
-        $db_user,
-        $db_password,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
+    // Create PDO connection using config
+    $pdo = getDbConnection();
 
     // Verify token exists, is valid, not expired, and not used
     $tokenQuery = "

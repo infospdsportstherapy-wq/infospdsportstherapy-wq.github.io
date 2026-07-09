@@ -1,0 +1,38 @@
+# Environment variables (sensitive credentials)
+.env
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Docker
+docker-compose.override.yml
+
+# Composer
+vendor/
+composer.lock
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database files
+*.sql.bak
+
+# Node modules (if using npm)
+node_modules/
+package-lock.json
