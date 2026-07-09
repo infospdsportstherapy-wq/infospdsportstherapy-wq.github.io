@@ -108,17 +108,19 @@ function loadAllReviews() {
     const carousel = document.getElementById('reviewsCarousel');
     if (!carousel) return;
 
-    // Try to load from API first
-    fetch('api/get_reviews.php?limit=100')
+    // Try to load from API first - request all reviews without limit
+    fetch('api/get_reviews.php')
         .then(response => response.json())
         .then(result => {
             if (result.success && result.data.length > 0) {
                 allReviews = result.data;
+                console.log('Loaded ' + allReviews.length + ' reviews from API');
                 displayAllReviews();
                 startAutoScroll();
             } else {
                 // Fallback to static data
                 allReviews = fallbackReviews;
+                console.log('Using fallback reviews: ' + allReviews.length + ' reviews');
                 displayAllReviews();
                 startAutoScroll();
             }
@@ -127,6 +129,7 @@ function loadAllReviews() {
             console.log('API not available, using local reviews:', error);
             // Fallback to static data
             allReviews = fallbackReviews;
+            console.log('Using fallback reviews: ' + allReviews.length + ' reviews');
             displayAllReviews();
             startAutoScroll();
         });

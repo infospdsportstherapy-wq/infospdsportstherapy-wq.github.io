@@ -26,8 +26,8 @@ try {
         ]
     );
 
-    // Get the limit (default 6 reviews)
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 6;
+    // Get the limit (default to all reviews if not specified)
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 999;
 
     // Query to get random reviews with user information
     $query = "
