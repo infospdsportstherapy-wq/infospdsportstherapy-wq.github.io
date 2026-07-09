@@ -173,7 +173,7 @@ function startAutoScroll() {
     // Auto-scroll to next group of reviews every 5 seconds
     setInterval(() => {
         rotateToNextReview();
-    }, 5000);
+    }, 8000);
 }
 
 // Get reviews per page based on screen size

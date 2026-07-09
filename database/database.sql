@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
     activity VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -31,7 +32,13 @@ CREATE TABLE reviews (
 
     rating INTEGER NOT NULL CHECK (rating >= 3 AND rating <= 5),
 
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'approved',
+
+    admin_notes TEXT,
+
     review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    reviewed_at TIMESTAMP NULL,
 
     CONSTRAINT fk_review_user
         FOREIGN KEY (user_id)

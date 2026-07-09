@@ -1,0 +1,781 @@
+<!-- admin/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Admin Dashboard | SPD Sports Therapy
+    </title>
+
+    <meta name="description" content="Admin panel for managing reviews.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../images/logo.jpeg" type="image/jpeg">
+    <link rel="icon" href="../images/logo.jpeg" type="image/jpeg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4488ff;
+            --primary-dark: #2563eb;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --bg-dark: #e0e0e0;
+            --danger: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .login-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-dark) 100%);
+        }
+
+        .login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-form h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-form p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(68, 136, 255, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .error-message {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: var(--danger);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.show {
+            display: block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 28px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--warning);
+            transition: transform 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .review-card.approved {
+            border-left-color: var(--success);
+            opacity: 0.7;
+        }
+
+        .review-card.rejected {
+            border-left-color: var(--danger);
+            opacity: 0.6;
+        }
+
+        .review-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .review-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .review-status.approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .review-status.rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        .reviewer-activity {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .reviewer-email {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .rating {
+            color: #ffc107;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 8px 0;
+        }
+
+        .review-text {
+            background: var(--bg-light);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 12px 0;
+            color: var(--text-dark);
+        }
+
+        .admin-notes {
+            background: #f0f8ff;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 10px 0;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-approve,
+        .btn-reject {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #229954;
+        }
+
+        .btn-reject {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #c0392b;
+        }
+
+        .btn-approve:disabled,
+        .btn-reject:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            color: var(--text-light);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .review-actions {
+                flex-direction: column;
+            }
+
+            .btn-approve,
+            .btn-reject {
+                min-width: auto;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- LOGIN SECTION -->
+    <div class="login-section" id="loginSection">
+        <div class="login-form">
+            <h1><i class="fas fa-lock"></i> Admin Login</h1>
+            <p>Enter your admin password to access the dashboard</p>
+
+            <div class="error-message" id="loginError"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminPassword">Admin Password</label>
+                    <input type="password" id="adminPassword" name="adminPassword" placeholder="Enter admin password" required>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div class="dashboard-section" id="dashboardSection">
+        <div class="admin-container">
+            <div class="dashboard-header">
+                <div>
+                    <h1><i class="fas fa-chart-bar"></i> Review Management Dashboard</h1>
+                    <p style="color: var(--text-light); margin-top: 5px;">Manage and approve user-submitted reviews</p>
+                </div>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats" id="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="pendingCount">0</div>
+                    <div class="stat-label">Pending Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="approvedCount">0</div>
+                    <div class="stat-label">Approved Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="rejectedCount">0</div>
+                    <div class="stat-label">Rejected Reviews</div>
+                </div>
+            </div>
+
+            <!-- Reviews Grid -->
+            <div id="loadingIndicator" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading reviews...
+            </div>
+
+            <div id="reviewsContainer" class="reviews-grid" style="display: none;">
+                <!-- Reviews will be loaded here -->
+            </div>
+
+            <div id="noReviews" class="no-reviews" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <p>All caught up! No pending reviews at the moment.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let isAuthenticated = false;
+        let adminPassword = '';
+        let allReviews = [];
+
+        // ==================== LOGIN ====================
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            adminPassword = document.getElementById('adminPassword').value;
+            const loginError = document.getElementById('loginError');
+            loginError.classList.remove('show');
+
+            try {
+                // Test authentication by trying to fetch all reviews
+                const formData = new FormData();
+                formData.append('adminPassword', adminPassword);
+                formData.append('action', 'test');
+
+                const response = await fetch('../api/approve_review.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // If we get 403, password is wrong
+                if (response.status === 403) {
+                    loginError.textContent = 'Invalid admin password';
+                    loginError.classList.add('show');
+                    return;
+                }
+
+                // Password is correct (or request went through)
+                isAuthenticated = true;
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').classList.add('show');
+
+                // Load reviews
+                loadReviews();
+
+            } catch (error) {
+                console.error('Login error:', error);
+                loginError.textContent = 'An error occurred during login';
+                loginError.classList.add('show');
+            }
+        });
+
+        // ==================== LOGOUT ====================
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            isAuthenticated = false;
+            adminPassword = '';
+            allReviews = [];
+
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('dashboardSection').classList.remove('show');
+            document.getElementById('loginForm').reset();
+            document.getElementById('adminPassword').focus();
+        });
+
+        // ==================== LOAD REVIEWS ====================
+        async function loadReviews() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            const noReviews = document.getElementById('noReviews');
+
+            loadingIndicator.style.display = 'block';
+            reviewsContainer.style.display = 'none';
+            noReviews.style.display = 'none';
+
+            try {
+                // Fetch all reviews (you'll need to create a get_all_reviews.php endpoint)
+                const response = await fetch('../api/get_all_reviews.php?adminPassword=' + encodeURIComponent(adminPassword));
+
+                if (!response.ok) {
+                    throw new Error('Failed to load reviews');
+                }
+
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    allReviews = result.data;
+                    displayReviews();
+                    updateStats();
+                } else {
+                    noReviews.style.display = 'block';
+                    updateStats();
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                noReviews.innerHTML = '<i class="fas fa-exclamation-circle"></i><p>Error loading reviews. Please try again.</p>';
+                noReviews.style.display = 'block';
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // ==================== DISPLAY REVIEWS ====================
+        function displayReviews() {
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            reviewsContainer.innerHTML = '';
+
+            allReviews.forEach(review => {
+                const reviewCard = createReviewCard(review);
+                reviewsContainer.appendChild(reviewCard);
+            });
+
+            reviewsContainer.style.display = 'grid';
+        }
+
+        function createReviewCard(review) {
+            const card = document.createElement('div');
+            card.className = `review-card ${review.status}`;
+            card.id = `review-${review.review_id}`;
+
+            const statusBadge = `<span class="review-status ${review.status}">${review.status.toUpperCase()}</span>`;
+
+            const stars = generateStars(review.rating);
+
+            const adminNotes = review.admin_notes ? `<div class="admin-notes"><strong>Admin Notes:</strong> ${escapeHtml(review.admin_notes)}</div>` : '';
+
+            const actionButtons = review.status === 'pending' ? `
+                <div class="review-actions">
+                    <button class="btn-approve" onclick="approveReview(${review.review_id}, this)">
+                        <i class="fas fa-check"></i> Approve
+                    </button>
+                    <button class="btn-reject" onclick="showRejectForm(${review.review_id}, this)">
+                        <i class="fas fa-times"></i> Reject
+                    </button>
+                </div>
+            ` : '';
+
+            card.innerHTML = `
+                <div class="review-header">
+                    <div>
+                        <div class="reviewer-name">${escapeHtml(review.full_name)}</div>
+                        <div class="reviewer-activity">${escapeHtml(review.activity)}</div>
+                        <div class="reviewer-email"><i class="fas fa-envelope"></i> ${escapeHtml(review.email)}</div>
+                    </div>
+                </div>
+
+                ${statusBadge}
+
+                <div class="rating">${stars}</div>
+
+                <div class="review-date">
+                    <i class="fas fa-calendar"></i>
+                    Submitted: ${formatDate(review.review_date)}
+                    ${review.reviewed_at ? `<br><i class="fas fa-check-circle"></i> Reviewed: ${formatDate(review.reviewed_at)}` : ''}
+                </div>
+
+                <div class="review-text">
+                    ${escapeHtml(review.review)}
+                </div>
+
+                ${adminNotes}
+
+                ${actionButtons}
+            `;
+
+            return card;
+        }
+
+        function generateStars(rating) {
+            let stars = '';
+            for (let i = 0; i < rating; i++) {
+                stars += '<i class="fas fa-star"></i> ';
+            }
+            return stars + `<span>(${rating}/5)</span>`;
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // ==================== APPROVE REVIEW ====================
+        async function approveReview(reviewId, button) {
+            button.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('adminPassword', adminPassword);
+                formData.append('reviewId', reviewId);
+                formData.append('action', 'approve');
+
+                const response = await fetch('../api/approve_review.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Update UI
+                    const card = document.getElementById(`review-${reviewId}`);
+                    card.classList.remove('pending');
+                    card.classList.add('approved');
+
+                    // Update review in allReviews array
+                    const review = allReviews.find(r => r.review_id === reviewId);
+                    if (review) {
+                        review.status = 'approved';
+                        review.reviewed_at = result.reviewed_at;
+                    }
+
+                    // Refresh stats
+                    updateStats();
+
+                    // Reload card to hide action buttons
+                    setTimeout(() => {
+                        loadReviews();
+                    }, 500);
+                } else {
+                    alert('Error: ' + result.message);
+                    button.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error approving review:', error);
+                alert('Error approving review');
+                button.disabled = false;
+            }
+        }
+
+        // ==================== REJECT REVIEW ====================
+        function showRejectForm(reviewId, button) {
+            const notes = prompt('Enter rejection reason (optional):');
+
+            if (notes !== null) {
+                rejectReview(reviewId, notes, button);
+            }
+        }
+
+        async function rejectReview(reviewId, notes, button) {
+            button.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append('adminPassword', adminPassword);
+                formData.append('reviewId', reviewId);
+                formData.append('action', 'reject');
+                formData.append('adminNotes', notes);
+
+                const response = await fetch('../api/approve_review.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Update UI
+                    const card = document.getElementById(`review-${reviewId}`);
+                    card.classList.remove('pending');
+                    card.classList.add('rejected');
+
+                    // Update review in allReviews array
+                    const review = allReviews.find(r => r.review_id === reviewId);
+                    if (review) {
+                        review.status = 'rejected';
+                        review.admin_notes = notes;
+                        review.reviewed_at = result.reviewed_at;
+                    }
+
+                    // Refresh stats
+                    updateStats();
+
+                    // Reload card to hide action buttons
+                    setTimeout(() => {
+                        loadReviews();
+                    }, 500);
+                } else {
+                    alert('Error: ' + result.message);
+                    button.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error rejecting review:', error);
+                alert('Error rejecting review');
+                button.disabled = false;
+            }
+        }
+
+        // ==================== UPDATE STATS ====================
+        function updateStats() {
+            const pending = allReviews.filter(r => r.status === 'pending').length;
+            const approved = allReviews.filter(r => r.status === 'approved').length;
+            const rejected = allReviews.filter(r => r.status === 'rejected').length;
+
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('rejectedCount').textContent = rejected;
+        }
+    </script>
+
+</body>
+
+</html>

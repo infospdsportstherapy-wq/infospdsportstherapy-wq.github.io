@@ -1,0 +1,496 @@
+<!-- review.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Share Your Review | SPD Sports Therapy
+    </title>
+
+    <meta name="description" content="Share your experience with SPD Sports Therapy. Help other athletes make informed decisions.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/logo.jpeg" type="image/jpeg">
+    <link rel="icon" href="images/logo.jpeg" type="image/jpeg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Additional Review Form CSS -->
+    <style>
+        .review-form-section {
+            padding: 60px 20px;
+        }
+
+        .review-form-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-form-container h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .review-form-container p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(68, 136, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .star-input {
+            display: none;
+        }
+
+        .star-label {
+            font-size: 28px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star-label:hover,
+        .star-label.active {
+            color: #ffc107;
+        }
+
+        .form-group.rating {
+            margin-bottom: 25px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: #e74c3c;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images/Chatblue.png" alt="SPD Sports Therapy Logo" class="logo-img">
+            </div>
+
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="services.html">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about.html">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#rates">
+                        Rates
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+    <!-- PAGE CONTAINER -->
+    <div class="container">
+
+        <!-- REVIEW FORM SECTION -->
+        <section class="review-form-section">
+            <div class="review-form-container">
+                <h1>Share Your Experience</h1>
+                <p>Your feedback helps us improve and helps other athletes discover our services.</p>
+
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> Thank you! Your review has been submitted and is awaiting approval.
+                </div>
+
+                <form id="reviewForm">
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="fullName" class="required">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                        <div class="error-message">Please enter your full name</div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email" class="required">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        <div class="error-message">Please enter a valid email address</div>
+                    </div>
+
+                    <!-- Activity/Sport -->
+                    <div class="form-group">
+                        <label for="activity" class="required">Sport / Activity</label>
+                        <input type="text" id="activity" name="activity" placeholder="e.g., Marathon Runner, Rugby Player" required>
+                        <div class="error-message">Please enter your sport or activity</div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="form-group rating">
+                        <label class="required">Rating</label>
+                        <div class="rating-group">
+                            <input type="radio" id="star1" name="rating" value="1" class="star-input" required>
+                            <label for="star1" class="star-label">★</label>
+
+                            <input type="radio" id="star2" name="rating" value="2" class="star-input">
+                            <label for="star2" class="star-label">★</label>
+
+                            <input type="radio" id="star3" name="rating" value="3" class="star-input">
+                            <label for="star3" class="star-label">★</label>
+
+                            <input type="radio" id="star4" name="rating" value="4" class="star-input">
+                            <label for="star4" class="star-label">★</label>
+
+                            <input type="radio" id="star5" name="rating" value="5" class="star-input">
+                            <label for="star5" class="star-label">★</label>
+                        </div>
+                        <div class="error-message">Please select a rating</div>
+                    </div>
+
+                    <!-- Review Text -->
+                    <div class="form-group">
+                        <label for="review" class="required">Your Review</label>
+                        <textarea id="review" name="review" placeholder="Share your experience with SPD Sports Therapy..." required></textarea>
+                        <div class="error-message">Please enter your review</div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Review
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h3>Contact SPD Sports Therapy</h3>
+            <p>Phone: <a href="tel:+27737531057">+27 73 753 1057</a></p>
+            <p>Email: <a href="mailto:info.spdsportstherapy@gmail.com">info.spdsportstherapy@gmail.com</a></p>
+            <p>Facebook: <a href="https://www.facebook.com/profile.php?id=61586366068326" target="_blank">SPD Sports Therapy</a></p>
+            <p>WhatsApp: <a href="https://wa.me/27737531057" target="_blank">Chat With Us</a></p>
+            <p>&copy; 2026 SPD Sports Therapy</p>
+        </div>
+    </footer>
+
+    <!-- Navigation Toggle Script -->
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        navToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+
+    <!-- Review Form Script -->
+    <script>
+        const form = document.getElementById('reviewForm');
+        const successMessage = document.getElementById('successMessage');
+        const starLabels = document.querySelectorAll('.star-label');
+
+        // Star rating interaction
+        starLabels.forEach(label => {
+            label.addEventListener('click', function(e) {
+                e.preventDefault();
+                const input = this.previousElementSibling;
+                input.checked = true;
+                updateStarDisplay();
+                clearError(this.parentElement.parentElement);
+            });
+
+            label.addEventListener('mouseover', function() {
+                const input = this.previousElementSibling;
+                const value = parseInt(input.value);
+                starLabels.forEach((label, index) => {
+                    if (index < value) {
+                        label.classList.add('active');
+                    } else {
+                        label.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        document.querySelector('.rating-group').addEventListener('mouseout', function() {
+            updateStarDisplay();
+        });
+
+        function updateStarDisplay() {
+            const selectedRating = document.querySelector('input[name="rating"]:checked');
+            if (selectedRating) {
+                const value = parseInt(selectedRating.value);
+                starLabels.forEach((label, index) => {
+                    if (index < value) {
+                        label.classList.add('active');
+                    } else {
+                        label.classList.remove('active');
+                    }
+                });
+            } else {
+                starLabels.forEach(label => label.classList.remove('active'));
+            }
+        }
+
+        // Clear error styling
+        function clearError(element) {
+            const group = element.closest('.form-group');
+            if (group) {
+                group.classList.remove('error');
+            }
+        }
+
+        // Form validation
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Reset all errors
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Validate inputs
+            let isValid = true;
+            const fullName = document.getElementById('fullName');
+            const email = document.getElementById('email');
+            const activity = document.getElementById('activity');
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const review = document.getElementById('review');
+
+            // Validate full name
+            if (!fullName.value.trim()) {
+                fullName.closest('.form-group').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim() || !emailRegex.test(email.value)) {
+                email.closest('.form-group').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate activity
+            if (!activity.value.trim()) {
+                activity.closest('.form-group').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate rating
+            if (!rating) {
+                document.querySelector('.form-group.rating').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate review
+            if (!review.value.trim()) {
+                review.closest('.form-group').classList.add('error');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Prepare data
+            const formData = new FormData();
+            formData.append('fullName', fullName.value.trim());
+            formData.append('email', email.value.trim());
+            formData.append('activity', activity.value.trim());
+            formData.append('rating', rating.value);
+            formData.append('review', review.value.trim());
+
+            // Submit form
+            try {
+                const response = await fetch('api/submit_review.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Show success message
+                    successMessage.classList.add('show');
+                    form.reset();
+                    updateStarDisplay();
+
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 5000);
+                } else {
+                    alert('Error: ' + (result.message || 'Failed to submit review'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting review. Please try again.');
+            }
+        });
+
+        // Add input event listeners to clear errors
+        document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
+            input.addEventListener('change', function() {
+                clearError(this);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

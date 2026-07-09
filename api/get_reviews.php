@@ -29,7 +29,7 @@ try {
     // Get the limit (default to all reviews if not specified)
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 999;
 
-    // Query to get random reviews with user information
+    // Query to get random approved reviews with user information
     $query = "
         SELECT
             u.full_name,
@@ -39,6 +39,7 @@ try {
             r.review_date
         FROM users u
         INNER JOIN reviews r ON u.user_id = r.user_id
+        WHERE r.status = 'approved'
         ORDER BY RAND()
         LIMIT :limit
     ";
