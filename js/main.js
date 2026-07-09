@@ -71,12 +71,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add active class to navbar links based on current page
+    // Hide current page link and add active class to navbar links
     const currentLocation = location.pathname;
     const navMenuLinks = document.querySelectorAll('.nav-links a');
+    
     navMenuLinks.forEach(link => {
-        if (link.getAttribute('href') === currentLocation) {
-            link.classList.add('active');
+        const href = link.getAttribute('href');
+        
+        // Skip anchor-only links (those starting with #)
+        if (href.startsWith('#')) {
+            return;
+        }
+        
+        // Extract filename from current location (e.g., /services.html => services.html)
+        const currentPage = currentLocation.split('/').pop() || 'index.html';
+        
+        // Check if link matches current page (handle both relative and absolute paths)
+        if (href === currentPage || href === currentLocation) {
+            link.classList.add('nav-current-page');
         }
     });
 

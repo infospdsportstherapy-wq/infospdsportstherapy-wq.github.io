@@ -141,6 +141,10 @@ p {
     width: 20px;
 }
 
+.nav-current-page {
+    display: none !important;
+}
+
 /* Mobile Hamburger Menu */
 .nav-toggle {
     display: none;
