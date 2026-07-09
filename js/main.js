@@ -113,7 +113,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
 });
+
+
 
 // Add utility functions
 function scrollToTop() {

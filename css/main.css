@@ -710,6 +710,65 @@ a:hover {
     gap: 30px;
 }
 
+/* Horizontal Scrolling Carousel Styles */
+.testimonials-scroll-container {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.testimonials-carousel {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-blue) var(--light-blue);
+}
+
+/* Webkit scrollbar styling */
+.testimonials-carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.testimonials-carousel::-webkit-scrollbar-track {
+    background: var(--light-blue);
+    border-radius: 10px;
+}
+
+.testimonials-carousel::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border-radius: 10px;
+}
+
+.testimonials-carousel::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-blue);
+}
+
+/* Slide in animation */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+}
+
 .testimonial-card {
     background: var(--light-blue);
     border-radius: 12px;
@@ -717,11 +776,33 @@ a:hover {
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     transition: var(--transition);
+    flex: 0 0 320px;
+    min-width: 320px;
+    animation: slideInRight 0.6s ease-out;
+}
+
+.testimonial-card.slide-out {
+    animation: slideOutLeft 0.6s ease-in forwards;
 }
 
 .testimonial-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-md);
+}
+
+.testimonial-card.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.carousel-controls {
+    display: none;
+}
+
+.carousel-btn {
+    display: none;
 }
 
 .stars {
@@ -1080,6 +1161,21 @@ a:hover {
         gap: 20px;
     }
 
+    .testimonials-carousel {
+        gap: 15px;
+    }
+
+    .testimonial-card {
+        flex: 0 0 280px;
+        min-width: 280px;
+    }
+
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
     /* CTA section */
     .final-cta {
         padding: 50px 20px;
@@ -1361,7 +1457,14 @@ a:hover {
         gap: 15px;
     }
 
+    .testimonials-carousel {
+        gap: 12px;
+        padding-bottom: 10px;
+    }
+
     .testimonial-card {
+        flex: 0 0 260px;
+        min-width: 260px;
         padding: 20px;
         border-radius: 8px;
     }
