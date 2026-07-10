@@ -451,24 +451,26 @@
 
             if (!isValid) return;
 
-            // Prepare data
-            const formData = new FormData();
-            formData.append('fullName', fullName.value.trim());
-            formData.append('email', email.value.trim());
-            formData.append('activity', activity.value.trim());
-            formData.append('rating', rating.value);
-            formData.append('review', review.value.trim());
+            // Prepare data for Formspree (JSON format)
+            const reviewData = {
+                fullName: fullName.value.trim(),
+                email: email.value.trim(),
+                activity: activity.value.trim(),
+                rating: rating.value,
+                review: review.value.trim()
+            };
 
-            // Submit form
+            // Submit form to Formspree
             try {
-                const response = await fetch('api/submit_review.php', {
+                const response = await fetch('https://formspree.io/f/mkoldgrp', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reviewData)
                 });
 
-                const result = await response.json();
-
-                if (result.success) {
+                if (response.ok) {
                     // Show success message
                     successMessage.classList.add('show');
                     form.reset();
@@ -482,7 +484,7 @@
                         successMessage.classList.remove('show');
                     }, 5000);
                 } else {
-                    alert('Error: ' + (result.message || 'Failed to submit review'));
+                    alert('Error: Failed to submit review. Please try again.');
                 }
             } catch (error) {
                 console.error('Error:', error);
