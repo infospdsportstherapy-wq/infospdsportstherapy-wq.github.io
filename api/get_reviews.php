@@ -1,56 +1,77 @@
 <?php
 /*==========================================================
-  GET RANDOM REVIEWS API
-  Fetches random reviews from the database
-  Uses centralized config for database credentials
+  GET RANDOM REVIEWS API - JSON VERSION
+  Fetches random reviews from the JSON file
+  Used for the homepage reviews carousel
 ==========================================================*/
-
-require_once __DIR__ . '/../config/config.php';
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 
 try {
-    // Create PDO connection using config
-    $pdo = getDbConnection();
-
     // Get the limit (default to all reviews if not specified)
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 999;
 
-    // Query to get random approved reviews with user information
-    $query = "
-        SELECT
-            u.full_name,
-            u.activity,
-            r.review,
-            r.rating,
-            r.review_date
-        FROM users u
-        INNER JOIN reviews r ON u.user_id = r.user_id
-        WHERE r.status = 'approved'
-        ORDER BY RAND()
-        LIMIT :limit
-    ";
+    // Path to reviews JSON file
+    $reviewsFile = __DIR__ . '/../reviews/reviews.json';
 
-    $stmt = $pdo->prepare($query);
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    $reviews = $stmt->fetchAll();
+    // Check if file exists
+    if (!file_exists($reviewsFile)) {
+        http_response_code(200);
+        echo json_encode([
+            'success' => true,
+            'data' => [],
+            'count' => 0
+        ]);
+        exit();
+    }
+
+    // Read and parse JSON file
+    $content = file_get_contents($reviewsFile);
+    $data = json_decode($content, true);
+    
+    if (!isset($data['reviews']) || !is_array($data['reviews'])) {
+        http_response_code(200);
+        echo json_encode([
+            'success' => true,
+            'data' => [],
+            'count' => 0
+        ]);
+        exit();
+    }
+
+    // Get only approved reviews (all reviews are auto-approved in JSON version)
+    $reviews = $data['reviews'];
+    
+    // Shuffle and limit
+    shuffle($reviews);
+    $reviews = array_slice($reviews, 0, $limit);
+
+    // Transform to match expected format for homepage carousel
+    $formatted = array_map(function($review) {
+        return [
+            'full_name' => $review['fullName'],
+            'activity' => $review['activity'],
+            'review' => $review['review'],
+            'rating' => $review['rating'],
+            'review_date' => $review['submittedAt']
+        ];
+    }, $reviews);
 
     // Return JSON response
     http_response_code(200);
     echo json_encode([
         'success' => true,
-        'data' => $reviews,
-        'count' => count($reviews)
+        'data' => $formatted,
+        'count' => count($formatted)
     ]);
 
-} catch (PDOException $e) {
+} catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'error' => 'Database connection failed',
+        'error' => 'Error loading reviews',
         'message' => $e->getMessage()
     ]);
 }
