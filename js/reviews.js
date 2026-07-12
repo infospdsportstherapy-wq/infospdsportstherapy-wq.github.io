@@ -129,6 +129,21 @@ function loadAllReviews() {
     const carousel = document.getElementById('reviewsCarousel');
     if (!carousel) return;
 
+    // First, check if embedded reviews data is available (for file:// protocol)
+    if (typeof embeddedReviewsData !== 'undefined' && embeddedReviewsData.reviews && embeddedReviewsData.reviews.length > 0) {
+        // Transform the embedded data to match expected format
+        allReviews = embeddedReviewsData.reviews.map(review => ({
+            full_name: review.fullName,
+            activity: review.activity,
+            review: review.review,
+            rating: review.rating
+        }));
+        console.log('Loaded ' + allReviews.length + ' reviews from embedded data');
+        displayAllReviews();
+        startAutoScroll();
+        return;
+    }
+
     // Try to load from API first - request all reviews without limit
     fetch('api/get_reviews.php')
         .then(response => response.json())
@@ -139,16 +154,40 @@ function loadAllReviews() {
                 displayAllReviews();
                 startAutoScroll();
             } else {
-                // Fallback to static data
-                allReviews = fallbackReviews;
-                console.log('Using fallback reviews: ' + allReviews.length + ' reviews');
-                displayAllReviews();
-                startAutoScroll();
+                // Try to load directly from reviews.json file
+                loadReviewsFromJSON();
             }
         })
         .catch(error => {
-            console.log('API not available, using local reviews:', error);
-            // Fallback to static data
+            console.log('API not available, trying to load reviews from JSON file:', error);
+            // Try to load directly from reviews.json file
+            loadReviewsFromJSON();
+        });
+}
+
+// Load reviews directly from reviews.json file (fallback for file:// protocol)
+function loadReviewsFromJSON() {
+    fetch('reviews/reviews.json')
+        .then(response => response.json())
+        .then(data => {
+            if (data.reviews && data.reviews.length > 0) {
+                // Transform the data to match the expected format
+                allReviews = data.reviews.map(review => ({
+                    full_name: review.fullName,
+                    activity: review.activity,
+                    review: review.review,
+                    rating: review.rating
+                }));
+                console.log('Loaded ' + allReviews.length + ' reviews from JSON file');
+                displayAllReviews();
+                startAutoScroll();
+            } else {
+                throw new Error('No reviews in JSON file');
+            }
+        })
+        .catch(error => {
+            console.log('JSON file not available, using fallback reviews:', error);
+            // Final fallback to static data
             allReviews = fallbackReviews;
             console.log('Using fallback reviews: ' + allReviews.length + ' reviews');
             displayAllReviews();

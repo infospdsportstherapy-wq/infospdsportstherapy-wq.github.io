@@ -130,6 +130,9 @@ try {
         throw new Exception('Failed to save review');
     }
 
+    // Update the embedded reviews data in services.html for file:// protocol compatibility
+    updateEmbeddedReviewsInHTML($reviewsData);
+
     // Return success response
     http_response_code(201);
     echo json_encode([
@@ -145,5 +148,36 @@ try {
         'message' => 'An error occurred',
         'error' => $e->getMessage()
     ]);
+}
+
+/**
+ * Update the embedded reviews data in services.html
+ * This ensures that the carousel displays new reviews even when accessed via file:// protocol
+ */
+function updateEmbeddedReviewsInHTML($reviewsData) {
+    try {
+        $servicesFile = __DIR__ . '/../services.html';
+        if (!file_exists($servicesFile)) {
+            return; // File doesn't exist, skip update
+        }
+
+        $htmlContent = file_get_contents($servicesFile);
+        
+        // Generate the new embedded data
+        $embeddedData = "const embeddedReviewsData = " . json_encode($reviewsData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . ";";
+        
+        // Find and replace the embeddedReviewsData in the HTML
+        $pattern = '/const embeddedReviewsData = \{[\s\S]*?\};/';
+        $replacement = $embeddedData;
+        
+        $newHtmlContent = preg_replace($pattern, $replacement, $htmlContent, 1);
+        
+        if ($newHtmlContent !== $htmlContent) {
+            file_put_contents($servicesFile, $newHtmlContent, LOCK_EX);
+        }
+    } catch (Exception $e) {
+        // Silently fail - don't block review submission if HTML update fails
+        error_log("Warning: Failed to update embedded reviews in HTML: " . $e->getMessage());
+    }
 }
 ?>
