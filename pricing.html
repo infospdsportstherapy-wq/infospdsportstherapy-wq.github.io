@@ -1,0 +1,189 @@
+<!-- pricing.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Pricing | SPD Sports Therapy
+    </title>
+
+    <meta name="description" content="Transparent pricing for professional sports therapy sessions in Cape Town. 45, 60, and 90 minute sessions available.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="public/images/logo.jpeg" type="image/jpeg">
+    <link rel="icon" href="public/images/logo.jpeg" type="image/jpeg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="public/css/main.css">
+
+    <style>
+        .pricing-section {
+            padding: 60px 20px;
+        }
+
+        .pricing-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .pricing-container h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #0f172a;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .pricing-container .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .pricing-loading {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .pricing-error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="public/images/Chatblue.png" alt="SPD Sports Therapy Logo" class="logo-img">
+            </div>
+
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="services.html">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about.html">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="pricing.html">
+                        Pricing
+                    </a>
+                </li>
+
+                <li>
+                    <a href="review.html">
+                        Reviews
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+    <!-- PAGE CONTAINER -->
+    <div class="container">
+
+        <!-- PRICING SECTION -->
+        <section class="pricing-section">
+            <div class="pricing-container">
+                <h1>Our Pricing</h1>
+                <p class="subtitle">Transparent, professional rates for quality sports therapy</p>
+
+                <div id="pricingError" class="pricing-error" style="display: none;"></div>
+                <div id="pricingLoading" class="pricing-loading">Loading pricing...</div>
+
+                <div class="rates" id="pricingRates">
+                    <!-- Pricing will be loaded dynamically here -->
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h3>Contact SPD Sports Therapy</h3>
+            <p>Phone: <a href="tel:+27737531057">+27 73 753 1057</a></p>
+            <p>Email: <a href="mailto:info.spdsportstherapy@gmail.com">info.spdsportstherapy@gmail.com</a></p>
+            <p>Facebook: <a href="https://www.facebook.com/profile.php?id=61586366068326" target="_blank">SPD Sports Therapy</a></p>
+            <p>WhatsApp: <a href="https://wa.me/27737531057" target="_blank">Chat With Us</a></p>
+            <p>&copy; 2026 SPD Sports Therapy</p>
+        </div>
+    </footer>
+
+    <!-- Navigation Toggle Script -->
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        navToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+
+    <!-- Pricing Script -->
+    <script src="public/js/pricing.js"></script>
+
+</body>
+
+</html>
