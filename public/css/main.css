@@ -1256,7 +1256,15 @@ textarea:focus-visible {
 
 /* Mobile blue navigation */
 @media (max-width: 760px) {
+    .nav-wrap { position: relative; }
+    .nav-wrap > nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+    }
     .nav-links {
+        position: static;
         border-color: rgba(25,108,239,.18);
     }
 }
