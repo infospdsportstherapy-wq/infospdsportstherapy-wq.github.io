@@ -53,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         '.about-grid > *',
         '.value-row',
         '.price-row',
-        '.review-intro > *',
-        '.review-form',
         '.legal-section',
         '.service-cta > *'
     ];
@@ -162,36 +160,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* Public review form */
-    const reviewForm = document.querySelector('[data-review-form]');
-    if (reviewForm) {
-        const status = reviewForm.querySelector('[data-form-status]');
-
-        reviewForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const button = reviewForm.querySelector('button[type="submit"]');
-
-            if (!reviewForm.reportValidity()) return;
-
-            button.disabled = true;
-            status.textContent = 'Sending your review...';
-
-            try {
-                const response = await fetch(reviewForm.action, {
-                    method: 'POST',
-                    body: new FormData(reviewForm),
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) throw new Error('Submission failed');
-
-                reviewForm.reset();
-                status.textContent = 'Thank you. Your review has been sent.';
-            } catch (error) {
-                status.textContent = 'We could not send the review right now. Please use WhatsApp or email instead.';
-            } finally {
-                button.disabled = false;
-            }
-        });
-    }
 });
